@@ -1,0 +1,26 @@
+
+
+* To-Do list
+** High Priority
++ Messages/Parallelism
++ Resource management improvements  
+
+** Med Priority
++ Some mechanism for defining scenes
+
+** Low Priority
+
+
+* Proposed Entity-Component System
+Entities are
++ collections of components
++ a network, describing how components are "wired" up to each other.
+
+
+#+begin_src common-lisp
+(def-entity rotating-cube 
+  ((transform
+    :component transform))
+
+#+end_src
+

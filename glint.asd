@@ -10,6 +10,7 @@
   :depends-on ("cl-glfw3"
                "cl-opengl"
                "array-operations"
+               "iterate"
                "split-sequence"
                "bordeaux-threads"
                "lparallel")
@@ -42,7 +43,5 @@
                 :pathname "math"
                 :components ((:file "matrix" :depends-on ("vector"))
                              (:file "vector")
-                             (:file "package")))
-
-               ))
+                             (:file "package")))))
 

@@ -5,7 +5,7 @@
   (:documentation "Generates a new model matrix (via calc-model-matrix) and "))
 
 
-(defvar *shader-program*)
+(defvar *shader-program* nil)
 
 
 (defclass model (transform)

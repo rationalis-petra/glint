@@ -12,7 +12,6 @@
 (in-package :glint.core)
 
 
-
 ;;; ENTITIES AND MESSAGING
 (defclass entity ()
   ((inbox
@@ -133,7 +132,11 @@ completion of a tick")
     :initform nil
     :accessor engine-should-stop
     :documentation "If the engine is running, then setting this value to nil
-will stop the engine"))
+will stop the engine")
+
+   (inbox
+    :initform (lparallel.queue:make-queue)
+    :reader engine-inbox))
 
 
    (:documentation "Encapsulates the necessary state & methods to run Glint simulation/game"))
@@ -302,11 +305,28 @@ of the engine's state"))
 (defgeneric get-entities (view)
   (:documentation "Get the list of all entities associated with an engine/view"))
 
+
 (defmethod get-entities ((engine engine))
   (engine-entities engine))
+
 
 (defmethod get-entities ((view view))
   (engine-entities (view-engine view)))
 
+
+(defun filter-entities (fun view)
+  (remove-if-not fun (get-entities view)))
+
+
 (defun register-ontick-observer (observer engine)
   (setf (engine-observer-tickers engine) (cons observer (engine-observer-tickers engine))))
+
+
+(defun spawn-entity (entity view)
+  (lparallel.queue:push-queue
+   (lambda (engine) (vector-push entity (engine-entities engine)))
+   (engine-inbox (view-engine view))))
+
+
+(defun kill-engine (view)
+  (setf (engine-should-stop (view-engine view)) t))

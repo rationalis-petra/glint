@@ -27,7 +27,7 @@
 
 (glfw:set-error-callback 'err)
 
-(defun make-window (camera)
+(defun make-window (camera &key (clear-colour #(0.2 0.3 0.3 1.0)))
   (let ((width (camera-width camera))
         (height (camera-height camera)))
     (glfw:initialize)
@@ -35,7 +35,7 @@
     (glfw:set-input-mode :cursor :disabled)
 
     (gl:viewport 0 0 width height)
-    (gl:clear-color 0.2 0.3 0.3 1.0)
+    (gl:clear-color (elt clear-colour 0) (elt clear-colour 1) (elt clear-colour 2) (elt clear-colour 3))
     (gl:enable :depth-test)
 
     (setf *window* (glfw:get-current-context))

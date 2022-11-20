@@ -9,7 +9,9 @@
    :engine-tickers :engine-update-arg-tickers :engine-observer-tickers
    :engine-should-stop
    :register-resource :register-ontick-observer
+   :filter-entities :spawn-entity
    :run
+   :kill-engine
 
    ;; entity styff
    :send-message
@@ -20,6 +22,7 @@
    ;; entity stuff
    :entity :update
 
+   ;; TODO: export transforms, meshes etc. into a 'math' or similar package 
    ;; transform.lisp
    :transform :transform-position :transform-rotation :transform-scale :calc-model-matrix
    :rotate :rotate-msg

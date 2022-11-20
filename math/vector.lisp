@@ -8,15 +8,15 @@
 ;; package
 
 
-
 (defpackage :vec
   (:use :cl)
   (:shadow common-lisp::- common-lisp::+)
   (:export
-   :+ :- :dot :cross :scale :normalize :magnitude
+   :+ :- :dot :cross :scale :normalize :magnitude :distance
    :vec4 :vec3))
 
 (in-package :vec)
+
 
 (defun magnitude (vec)
   "Returns the l2 norm of a vector"
@@ -25,6 +25,7 @@
         summing (* x x) into total
         finally (return (sqrt total))))
 
+
 (defun scale (s vec)
   "Scale a vector by some number"
   (declare (type (vector number) vec) (type number s))
@@ -32,10 +33,12 @@
        (make-array (length vec) :initial-element s)
        vec))
 
+
 (defun normalize (vec)
   "Scale a vector so it's l2 norm is 1"
   (declare (type (vector number) vec))
   (scale (/ 1 (magnitude vec)) vec))
+
 
 (defun + (left right)
   "Vector addition: requires equal length vectors"
@@ -44,6 +47,7 @@
 
   (map 'vector #'cl:+ left right))
 
+
 (defun - (left right)
   "Vector subtraction: requires equal length vectors"
   (declare (type (vector number) left right))
@@ -51,12 +55,14 @@
 
   (map 'vector #'cl:- left right))
 
+
 (defun dot (left right)
   "Dot product: requires eqial length vectors"
   (declare (type (vector number) left right))
   (assert (= (length left) (length right)))
 
   (reduce #'cl:+ (map 'vector #'* left right)))
+
 
 (defun cross (left right)
   "Cross product for vectors of dimension 3"
@@ -70,14 +76,24 @@
       (* (aref left 1) (aref right 0)))))
 
 
+(defun midpoint (left right)
+  "Returns the midpoint (average) of two vectors"
+  (declare (type (vector number) left right))
+  (assert (= (length left) (length right)))
+  (scale 0.5 (+ left right)))
+
+
+(defun distance (vec1 vec2)
+  "Distance (Euclidean) between two vectors"
+  (declare (type (vector number) vec1 vec2))
+  (magnitude (- vec1 vec2)))
+
 
 ;;; VECTOR CONSTRUCTORS
 ;; Currently quite simple functions, primarily for converting between different
 ;; length vectors, e.g. vec3/vec4. We declaim inline because they are very simple
 (declaim (inline vec4))
-(defun vec4 (vec num)
-  (concatenate 'vector vec (vector num)))
+(defun vec4 (vec num) (concatenate 'vector vec (vector num)))
 
 (declaim (inline vec4))
-(defun vec3 (vec)
-  (subseq vec 0 3))
+(defun vec3 (vec) (subseq vec 0 3))

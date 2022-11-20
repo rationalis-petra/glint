@@ -73,3 +73,5 @@ translation, rotation or scale parameters to nil so that it is not included"))
   (incf (elt (transform-scale entity) 0) (elt amt 0))
   (incf (elt (transform-scale entity) 1) (elt amt 1))
   (incf (elt (transform-scale entity) 2) (elt amt 2)))
+
+

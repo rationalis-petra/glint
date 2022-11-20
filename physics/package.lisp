@@ -1,3 +1,5 @@
 (defpackage glint.physics
-  (:use :common-lisp)
-  (:export ))
+  (:use :common-lisp :glint.core)
+  (:export
+   :physics-object
+   :gravity-point-field))
